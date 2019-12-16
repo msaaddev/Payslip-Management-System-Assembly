@@ -3,13 +3,13 @@ Include Irvine32.inc
 .data
 
 titleOfProject BYTE "			************************ PAY SLIP MANAGEMENT SYSTEM ************************", 0
-menu BYTE "Select from the following menu.", 0
-option1 BYTE "1. Enter today's data", 0
-option2 BYTE "2. Apply for leave", 0
-option3 BYTE "3. Show the report", 0
-option4 BYTE "4. Exit", 0
+menu BYTE "Select from the following menu.", 0dh, 0ah
+     BYTE "1. Enter today's data", 0dh, 0ah
+     BYTE "2. Apply for leave", 0dh, 0ah
+     BYTE "3. Show the report", 0dh, 0ah
+     BYTE "4. Exit", 0dh, 0ah, 0
+
 selection BYTE "Enter the number of your selection: ", 0
-selectedOption DWORD ?
 
 nameEnter BYTE "Enter your name: ", 0
 dayEnter BYTE "Enter the day: ", 0
@@ -18,8 +18,6 @@ hoursEnter BYTE "Enter number of hours you worked today: ", 0
 leaveConfirmation BYTE "Enter 1 if you want to apply for leave and 0 to exit to main menu: ", 0
 confirmedLeave BYTE "Your leave has been added.", 0
 deniedLeave BYTE "Leave is not allowed.", 0
-space BYTE "			", 0
-smallSpace BYTE "		", 0
 
 nameHeading BYTE "	Name			", 0
 dayHeading BYTE "Day			", 0
@@ -33,89 +31,78 @@ counter dword 0
 printCounter dword 0
 totalPay dword 0
 
-days BYTE 5 DUP (?)
+days DWORD ?
 nameOfEmployee BYTE 15 DUP (?)
-hoursEmployeeWorked BYTE 5 DUP (?)
+hoursEmployeeWorked DWORD ?
 blank BYTE "         ", 0
 space BYTE "             ", 0
+error BYTE " ------------------------------ ", 0dh, 0ah
+      BYTE "|Error: This is invalid option.|", 0dh, 0ah
+      BYTE " ------------------------------ ", 0
 check byte "This is a check", 0
 
 .code
 main proc
-	
-	start: 
 		
-		call crlf
-		mov edx, offset titleOfProject
-		call writestring
-		call crlf
-		call crlf
+     call crlf
+	 mov edx, offset titleOfProject
+	 call writestring
+	 call crlf
+	 call crlf
 
-		mov edx, offset menu
-		call writestring
-		call crlf
-		call crlf
-		mov edx, offset option1
-		call writestring
-		call crlf
-		mov edx, offset option2
-		call writestring
-		call crlf
-		mov edx, offset option3
-		call writestring
-		call crlf
-		mov edx, offset option4
-		call writestring
-		call crlf
-		call crlf
-		mov edx, offset selection
-		call writestring
-		call readint
-		mov selectedOption, eax
-		call crlf
-		call crlf
+	 start:
 
-		cmp selectedOption, 1
+		   mov edx, offset menu
+		   call writestring
+		   call crlf
+		   call crlf
+
+		   mov edx, offset selection
+		   call writestring
+
+		   call readint
+
+		cmp eax, 1
 		je L1
-		cmp selectedOption, 2
+		cmp eax, 2
 		je L2
-		cmp selectedOption, 3
+		cmp eax, 3
 		je L3
-		cmp selectedOption, 4
+		cmp eax, 4
 		je _exit
+
+		jmp err
 
 
 		L1:
+		   call crlf
+		   call crlf
+
 			mov edx, offset nameEnter
 			call writestring
 
 			mov edx, offset nameOfEmployee
 			mov ecx, sizeof nameOfEmployee
+			call readstring	
 			call crlf
-			call dumpregs
 
 			mov edx, offset dayEnter
 			call writestring
 
-			mov edx, offset days
-			mov ecx, sizeof days
+			call readint
+			mov days, eax
 
-			call readstring	
 			call crlf
-			call dumpregs
-
 			mov edx, offset hoursEnter
 			call writestring
 
-			mov edx, offset hoursEmployeeWorked
-			mov ecx, sizeof hoursEmployeeWorked 
-			call readstring
+			call readint
+			mov hoursEmployeeWorked, eax
 			call crlf
 
 			call dumpregs
 			inc counter
 			call crlf
-
 			jmp start
 
 		L2:
@@ -182,39 +169,36 @@ main proc
 			mov edx, offset space
 			call writestring
 
-			mov edx, offset days
-			call writestring
+			mov eax, days
+			call writeint
 
 			mov edx, offset space
 			call writestring
 
-			mov edx, offset hoursEmployeeWorked
-			call writestring
+			mov eax, hoursEmployeeWorked
+			call writeint
 
-			;mov ebx, offset hoursEmployeeWorked
-			;mov eax, [ebx]
-			;call writeint
+			call crlf
+			call crlf
 
-				mov edx, offset space
-				call writestring
-
-				mov edx, offset days
-				add edx, printCounter
-				call writestring
-
-				inc printCounter
-				call crlf
-				call dumpregs
-
-			LOOP printBody
-		jmp start
+			jmp start
 
 		L4:
 			call crlf
 			mov edx, offset deniedLeave
 			call writestring
 
-	jmp start
+	        jmp start
+
+	err:
+	    call crlf
+	    mov edx, offset error
+		call writestring
+
+		call crlf
+		call crlf
+
+		jmp start
 
 	_exit:
 	
