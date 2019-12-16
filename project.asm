@@ -31,10 +31,11 @@ counter dword 0
 printCounter dword 0
 totalPay dword 0
 
-days BYTE 5 DUP ("Wednesday")
-nameOfEmployee BYTE 5 DUP ("John Wick")
+days BYTE 5 DUP (?)
+nameOfEmployee BYTE 15 DUP (?)
 hoursEmployeeWorked BYTE 5 DUP (?)
-
+blank BYTE "         ", 0
+space BYTE "             ", 0
 check byte "This is a check", 0
 
 .code
@@ -86,30 +87,27 @@ main proc
 			mov edx, offset nameEnter
 			call writestring
 
-			mov esi, offset nameOfEmployee
-			add esi, counter 
-			mov edx, esi
-			mov ecx, 12
+			mov edx, offset nameOfEmployee
+			mov ecx, sizeof nameOfEmployee
 			call readstring	
 			call crlf
 
 			mov edx, offset dayEnter
 			call writestring
 
-			mov esi, offset days
-			add esi, counter 
-			mov edx, esi
-			mov ecx, 12
+			mov edx, offset days
+			mov ecx, sizeof days
 			call readstring	
 			call crlf
 
 			mov edx, offset hoursEnter
 			call writestring
 
-			call readint
-			mov esi, offset hoursEmployeeWorked
-			add esi, counter 
-			mov esi, eax
+			mov edx, offset hoursEmployeeWorked
+			mov ecx, sizeof hoursEmployeeWorked 
+			call readstring
+			call crlf
+
 			call dumpregs
 			inc counter
 			call crlf
@@ -170,11 +168,27 @@ main proc
 			call writestring
 			call crlf
 
-			mov ebx, offset hoursEmployeeWorked
-			
-			mov eax, [ebx]
+			mov edx, offset blank
+			call writestring
 
-			call writeint
+			mov edx, offset nameOfEmployee
+			call writestring
+
+			mov edx, offset space
+			call writestring
+
+			mov edx, offset days
+			call writestring
+
+			mov edx, offset space
+			call writestring
+
+			mov edx, offset hoursEmployeeWorked
+			call writestring
+
+			;mov ebx, offset hoursEmployeeWorked
+			;mov eax, [ebx]
+			;call writeint
 
 			jmp start
 
