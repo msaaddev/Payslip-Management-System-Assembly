@@ -18,6 +18,8 @@ hoursEnter BYTE "Enter number of hours you worked today: ", 0
 leaveConfirmation BYTE "Enter 1 if you want to apply for leave and 0 to exit to main menu: ", 0
 confirmedLeave BYTE "Your leave has been added.", 0
 deniedLeave BYTE "Leave is not allowed.", 0
+space BYTE "			", 0
+smallSpace BYTE "		", 0
 
 nameHeading BYTE "	Name			", 0
 dayHeading BYTE "Day			", 0
@@ -89,16 +91,18 @@ main proc
 
 			mov edx, offset nameOfEmployee
 			mov ecx, sizeof nameOfEmployee
-			call readstring	
 			call crlf
+			call dumpregs
 
 			mov edx, offset dayEnter
 			call writestring
 
 			mov edx, offset days
 			mov ecx, sizeof days
+
 			call readstring	
 			call crlf
+			call dumpregs
 
 			mov edx, offset hoursEnter
 			call writestring
@@ -111,6 +115,7 @@ main proc
 			call dumpregs
 			inc counter
 			call crlf
+
 			jmp start
 
 		L2:
@@ -190,7 +195,19 @@ main proc
 			;mov eax, [ebx]
 			;call writeint
 
-			jmp start
+				mov edx, offset space
+				call writestring
+
+				mov edx, offset days
+				add edx, printCounter
+				call writestring
+
+				inc printCounter
+				call crlf
+				call dumpregs
+
+			LOOP printBody
+		jmp start
 
 		L4:
 			call crlf
