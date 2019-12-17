@@ -22,26 +22,58 @@ deniedLeave BYTE "Leave is not allowed.", 0
 nameHeading BYTE "	Name			", 0
 dayHeading BYTE "Day			", 0
 hourHeading BYTE "Hours Worked			", 0
-payHeading BYTE "Total Pay", 0
 
 salaryPerHour DWORD 30
 totalHoursPerWeek DWORD 40
 leaveCount BYTE 0
-counter dword 0
+counter dword 1
 printCounter dword 0
 totalPay dword 0
 
-days DWORD ?
+day1 DWORD ?
+day2 DWORD ?
+day3 DWORD ?
+day4 DWORD ?
+day5 DWORD ?
 nameOfEmployee BYTE 15 DUP (?)
-hoursEmployeeWorked DWORD ?
-blank BYTE "         ", 0
+hoursEmployeeWorkedOnDay1 DWORD ?
+hoursEmployeeWorkedOnDay2 DWORD ?
+hoursEmployeeWorkedOnDay3 DWORD ?
+hoursEmployeeWorkedOnDay4 DWORD ?
+hoursEmployeeWorkedOnDay5 DWORD ?
+blank BYTE " ", 0
 space BYTE "             ", 0
 error BYTE " ------------------------------ ", 0dh, 0ah
       BYTE "|Error: This is invalid option.|", 0dh, 0ah
       BYTE " ------------------------------ ", 0
+
+hoursPrompt BYTE "Total Hours Worked: ", 0
+totalPayPrompt BYTE "Total Pay: ", 0
+equals BYTE " ------------------------------ ", 0dh, 0ah
+      BYTE "| Enter 1: For Monday |", 0dh, 0ah
+      BYTE "| Enter 2: For Tuesday |", 0dh, 0ah
+      BYTE "| Enter 3: For Wednesday |", 0dh, 0ah
+      BYTE "| Enter 4: For Thursday |", 0dh, 0ah
+      BYTE "| Enter 5: For Friday |", 0dh, 0ah
+      BYTE " ------------------------------ ", 0
 check byte "This is a check", 0
 
 .code
+
+calSum proc 
+
+	mov eax, hoursEmployeeWorkedOnDay1
+	add eax, hoursEmployeeWorkedOnDay2
+	add eax, hoursEmployeeWorkedOnDay3
+	add eax, hoursEmployeeWorkedOnDay4
+	add eax, hoursEmployeeWorkedOnDay5
+
+	ret
+
+calSum endp
+
+print proto, day: dword, hourWorked: dword
+
 main proc
 		
      call crlf
@@ -86,24 +118,107 @@ main proc
 			call readstring	
 			call crlf
 
+			mov edx, offset equals
+			call writestring
+			call crlf
+
 			mov edx, offset dayEnter
 			call writestring
 
-			call readint
-			mov days, eax
+			cmp counter, 1
+			je day_1
+			cmp counter, 2
+			je day_2
+			cmp counter, 3
+			je day_3
+			cmp counter, 4
+			je day_4
+			cmp counter, 5
+			je day_5
 
-			call crlf
+			day_1: 
+				call readint
+				mov day1, eax
+				call crlf
+				jmp hours
+			day_2:
+				call readint
+				mov day2, eax
+				call crlf
+				jmp hours
+
+			day_3:
+				call readint
+				mov day3, eax
+				call crlf
+				jmp hours
+
+			day_4:
+				call readint
+				mov day4, eax
+				call crlf
+				jmp hours
+
+			day_5:
+				call readint
+				mov day5, eax
+				call crlf
+				jmp hours
+				
+
+		hours:
 			mov edx, offset hoursEnter
 			call writestring
 
-			call readint
-			mov hoursEmployeeWorked, eax
-			call crlf
+			cmp counter, 1
+			je monday
+			cmp counter, 2
+			je tuesday
+			cmp counter, 3
+			je wednesday
+			cmp counter, 4
+			je thursday
+			cmp counter, 5
+			je friday
+			
+			monday: 
+				call readint
+				mov hoursEmployeeWorkedOnDay1, eax
+				call crlf
+				inc counter
+				jmp start
 
-			call dumpregs
-			inc counter
-			call crlf
-			jmp start
+
+			tuesday:
+				call readint
+				mov hoursEmployeeWorkedOnDay2, eax
+				call crlf
+				inc counter
+				jmp start
+
+			wednesday:
+
+				call readint
+				mov hoursEmployeeWorkedOnDay3, eax
+				call crlf
+				inc counter
+				jmp start
+
+			thursday:
+
+				call readint
+				mov hoursEmployeeWorkedOnDay4, eax
+				call crlf
+				inc counter
+				jmp start
+
+			friday:
+				
+				call readint
+				mov hoursEmployeeWorkedOnDay5, eax
+				call crlf
+				inc counter
+				jmp start
 
 		L2:
 			mov edx, offset leaveConfirmation
@@ -121,26 +236,101 @@ main proc
 			mov edx, offset nameEnter
 			call writestring
 
-			mov esi, offset nameOfEmployee
-			add esi, counter 
-			mov edx, esi
-			mov ecx, 12
+			mov edx, offset nameOfEmployee
+			mov ecx, sizeof nameOfEmployee
 			call readstring	
+			call crlf
+
+			mov edx, offset equals
+			call writestring
 			call crlf
 
 			mov edx, offset dayEnter
 			call writestring
 
-			mov esi, offset days
-			add esi, counter 
-			mov edx, esi
-			mov ecx, 12
-			call readstring	
-			call crlf
+			cmp counter, 1
+			je days_1
+			cmp counter, 2
+			je days_2
+			cmp counter, 3
+			je days_3
+			cmp counter, 4
+			je days_4
+			cmp counter, 5
+			je days_5
 
-			mov esi, offset hoursEmployeeWorked
-			add esi, counter 
-			mov esi, 8
+			days_1: 
+				call readint
+				mov day1, eax
+				call crlf
+				jmp hour
+			days_2:
+				call readint
+				mov day2, eax
+				call crlf
+				jmp hour
+
+			days_3:
+				call readint
+				mov day3, eax
+				call crlf
+				jmp hour
+
+			days_4:
+				call readint
+				mov day4, eax
+				call crlf
+				jmp hour
+
+			days_5:
+				call readint
+				mov day5, eax
+				call crlf
+				jmp hour
+				
+
+		hour:
+
+			cmp counter, 1
+			je mon
+			cmp counter, 2
+			je tues
+			cmp counter, 3
+			je wed
+			cmp counter, 4
+			je thurs
+			cmp counter, 5
+			je fri
+			
+			mon: 
+				mov hoursEmployeeWorkedOnDay1, 8
+				inc counter
+				jmp leaveConfirm
+
+			tues:
+				mov hoursEmployeeWorkedOnDay2, 8
+				inc counter
+				jmp leaveConfirm
+
+			wed:
+
+				mov hoursEmployeeWorkedOnDay3, 8
+				inc counter
+				jmp leaveConfirm
+
+			thurs:
+
+				mov hoursEmployeeWorkedOnDay4, 8
+				inc counter
+				jmp leaveConfirm
+
+			fri:
+				
+				mov hoursEmployeeWorkedOnDay5, 8
+				inc counter
+				jmp leaveConfirm
+
+		leaveConfirm:
 
 			mov edx, offset confirmedLeave
 			call writestring
@@ -148,6 +338,7 @@ main proc
 			call crlf
 
 			jmp start
+
 		L3:
 			
 			mov edx, offset nameHeading
@@ -156,28 +347,31 @@ main proc
 			call writestring
 			mov edx, offset hourHeading
 			call writestring
-			mov edx, offset payHeading
-			call writestring
 			call crlf
 
-			mov edx, offset blank
-			call writestring
+			INVOKE print, day1, hoursEmployeeWorkedOnDay1
+			call crlf
+			INVOKE print, day2, hoursEmployeeWorkedOnDay2
+			call crlf
+			INVOKE print, day3, hoursEmployeeWorkedOnDay3
+			call crlf
+			INVOKE print, day4, hoursEmployeeWorkedOnDay4
+			call crlf
+			INVOKE print, day5, hoursEmployeeWorkedOnDay5
+			call crlf
 
-			mov edx, offset nameOfEmployee
-			call writestring
 
-			mov edx, offset space
-			call writestring
-
-			mov eax, days
+			mov edx, offset hoursPrompt	
+			call writeString
+			call calSum					;calculating sum of hours
 			call writeint
+			call crlf
+			call crlf
 
-			mov edx, offset space
+			mov edx, offset totalPayPrompt
 			call writestring
-
-			mov eax, hoursEmployeeWorked
+			mul salaryPerHour			;calculating total salary
 			call writeint
-
 			call crlf
 			call crlf
 
@@ -187,6 +381,8 @@ main proc
 			call crlf
 			mov edx, offset deniedLeave
 			call writestring
+			call crlf
+			call crlf
 
 	        jmp start
 
@@ -206,4 +402,28 @@ main proc
 	call writestring
 
 main endp
+
+print proc uses edx, day: dword, hourWorked: dword
+	
+	mov edx, offset space
+	call writestring
+
+	mov edx, offset nameOfEmployee
+	call writestring
+
+	mov edx, offset space
+	call writestring
+
+	mov eax, day
+	call writeint
+
+	mov edx, offset space
+	call writestring
+
+	mov eax,  hourWorked
+	call writeint
+
+	ret
+
+print endp
 end main
