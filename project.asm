@@ -4,6 +4,7 @@ Include Irvine32.inc
 
 titleOfProject BYTE "			************************ PAY SLIP MANAGEMENT SYSTEM ************************", 0
 menu BYTE "Select from the following menu.", 0dh, 0ah
+	 BYTE " ",  0dh, 0ah
      BYTE "1. Enter today's data", 0dh, 0ah
      BYTE "2. Apply for leave", 0dh, 0ah
      BYTE "3. Show the report", 0dh, 0ah
@@ -19,9 +20,9 @@ leaveConfirmation BYTE "Enter 1 if you want to apply for leave and 0 to exit to 
 confirmedLeave BYTE "Your leave has been added.", 0
 deniedLeave BYTE "Leave is not allowed.", 0
 
-nameHeading BYTE "	Name			", 0
-dayHeading BYTE "Day			", 0
-hourHeading BYTE "Hours Worked			", 0
+nameHeading BYTE "Name        ", 0
+dayHeading BYTE "Day        ", 0
+hourHeading BYTE "Hours Worked		", 0
 
 salaryPerHour DWORD 30
 totalHoursPerWeek DWORD 40
@@ -41,8 +42,7 @@ hoursEmployeeWorkedOnDay2 DWORD ?
 hoursEmployeeWorkedOnDay3 DWORD ?
 hoursEmployeeWorkedOnDay4 DWORD ?
 hoursEmployeeWorkedOnDay5 DWORD ?
-blank BYTE " ", 0
-space BYTE "             ", 0
+space BYTE "        ", 0
 error BYTE " ------------------------------ ", 0dh, 0ah
       BYTE "|Error: This is invalid option.|", 0dh, 0ah
       BYTE " ------------------------------ ", 0
@@ -83,7 +83,7 @@ main proc
 	 call crlf
 
 	 start:
-
+		
 		   mov edx, offset menu
 		   call writestring
 		   call crlf
@@ -120,6 +120,7 @@ main proc
 
 			mov edx, offset equals
 			call writestring
+			call crlf
 			call crlf
 
 			mov edx, offset dayEnter
@@ -221,6 +222,7 @@ main proc
 				jmp start
 
 		L2:
+			call crlf
 			mov edx, offset leaveConfirmation
 			call writestring
 			call readint
@@ -340,7 +342,9 @@ main proc
 			jmp start
 
 		L3:
-			
+			call crlf
+			mov edx, offset space
+			call writestring
 			mov edx, offset nameHeading
 			call writestring
 			mov edx, offset dayHeading
@@ -361,6 +365,8 @@ main proc
 			call crlf
 
 
+			call crlf
+			call crlf
 			mov edx, offset hoursPrompt	
 			call writeString
 			call calSum					;calculating sum of hours
@@ -397,9 +403,6 @@ main proc
 		jmp start
 
 	_exit:
-	
-	mov edx, offset check
-	call writestring
 
 main endp
 
