@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.23.28106.4	    12/17/19 11:12:39
+Microsoft (R) Macro Assembler Version 14.23.28106.4	    12/17/19 13:15:47
 project.asm						     Page 1 - 1
 
 
@@ -188,37 +188,38 @@ project.asm						     Page 1 - 1
  000002B8 00000001		counter DWORD 1													;counter to keep track of days while inputing
  000002BC 00000000		printCounter DWORD 0											;counter to keep track of days during printing on console
  000002C0 00000000		totalPay DWORD 0
+ 000002C4 00000000		totalHours DWORD 0
 
- 000002C4 00000000		day1 DWORD ?
- 000002C8 00000000		day2 DWORD ?
- 000002CC 00000000		day3 DWORD ?
- 000002D0 00000000		day4 DWORD ?
- 000002D4 00000000		day5 DWORD ?
- 000002D8  0000000F [		nameOfEmployee BYTE 15 DUP (?)									;to store the name of employee
+ 000002C8 00000000		day1 DWORD ?
+ 000002CC 00000000		day2 DWORD ?
+ 000002D0 00000000		day3 DWORD ?
+ 000002D4 00000000		day4 DWORD ?
+ 000002D8 00000000		day5 DWORD ?
+ 000002DC  0000000F [		nameOfEmployee BYTE 15 DUP (?)									;to store the name of employee
 	    00
 	   ]
- 000002E7 00000000		hoursEmployeeWorkedOnDay1 DWORD ?
- 000002EB 00000000		hoursEmployeeWorkedOnDay2 DWORD ?
- 000002EF 00000000		hoursEmployeeWorkedOnDay3 DWORD ?
- 000002F3 00000000		hoursEmployeeWorkedOnDay4 DWORD ?
- 000002F7 00000000		hoursEmployeeWorkedOnDay5 DWORD ?
- 000002FB 20 20 20 20 20	space BYTE "        ", 0
+ 000002EB 00000000		hoursEmployeeWorkedOnDay1 DWORD ?
+ 000002EF 00000000		hoursEmployeeWorkedOnDay2 DWORD ?
+ 000002F3 00000000		hoursEmployeeWorkedOnDay3 DWORD ?
+ 000002F7 00000000		hoursEmployeeWorkedOnDay4 DWORD ?
+ 000002FB 00000000		hoursEmployeeWorkedOnDay5 DWORD ?
+ 000002FF 20 20 20 20 20	space BYTE "        ", 0
 	   20 20 20 00
- 00000304 20 2D 2D 2D 2D	error BYTE " ------------------------------ ", 0dh, 0ah			;error prompt
+ 00000308 20 2D 2D 2D 2D	error BYTE " ------------------------------ ", 0dh, 0ah			;error prompt
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 20 0D 0A
- 00000326  7C 45 72 72 6F	      BYTE "|Error: This is invalid option.|", 0dh, 0ah
+ 0000032A  7C 45 72 72 6F	      BYTE "|Error: This is invalid option.|", 0dh, 0ah
 	   72 3A 20 54 68
 	   69 73 20 69 73
 	   20 69 6E 76 61
 	   6C 69 64 20 6F
 	   70 74 69 6F 6E
 	   2E 7C 0D 0A
- 00000348  20 2D 2D 2D 2D	      BYTE " ------------------------------ ", 0
+ 0000034C  20 2D 2D 2D 2D	      BYTE " ------------------------------ ", 0
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
@@ -226,66 +227,83 @@ project.asm						     Page 1 - 1
 	   2D 2D 2D 2D 2D
 	   2D 20 00
 
- 00000369 54 6F 74 61 6C	hoursPrompt BYTE "Total Hours Worked: ", 0						;total hours prompt to display on screen
+ 0000036D 54 6F 74 61 6C	hoursPrompt BYTE "Total Hours Worked: ", 0						;total hours prompt to display on screen
 	   20 48 6F 75 72
 	   73 20 57 6F 72
 	   6B 65 64 3A 20
 	   00
- 0000037E 54 6F 74 61 6C	totalPayPrompt BYTE "Total Pay: ", 0							;total pay prompt to display on screen
+ 00000382 54 6F 74 61 6C	totalPayPrompt BYTE "Total Pay: ", 0							;total pay prompt to display on screen
 	   20 50 61 79 3A
 	   20 00
- 0000038A 20 2D 2D 2D 2D	equals BYTE " ------------------------------ ", 0dh, 0ah		;table to show number with corresponding day
+ 0000038E 20 20 2D 2D 2D	equals BYTE "  ----------------------------- ", 0dh, 0ah		;table to show number with corresponding day
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 20 0D 0A
- 000003AC  7C 20 45 6E 74	      BYTE "| Enter 1: For Monday |", 0dh, 0ah
-	   65 72 20 31 3A
-	   20 46 6F 72 20
-	   4D 6F 6E 64 61
-	   79 20 7C 0D 0A
- 000003C5  7C 20 45 6E 74	      BYTE "| Enter 2: For Tuesday |", 0dh, 0ah
-	   65 72 20 32 3A
-	   20 46 6F 72 20
-	   54 75 65 73 64
-	   61 79 20 7C 0D
-	   0A
- 000003DF  7C 20 45 6E 74	      BYTE "| Enter 3: For Wednesday |", 0dh, 0ah
-	   65 72 20 33 3A
-	   20 46 6F 72 20
-	   57 65 64 6E 65
+ 000003B0  20 7C 20 45 6E	      BYTE " | Enter 1: For Monday          |", 0dh, 0ah
+	   74 65 72 20 31
+	   3A 20 46 6F 72
+	   20 4D 6F 6E 64
+	   61 79 20 20 20
+	   20 20 20 20 20
+	   20 20 7C 0D 0A
+ 000003D3  20 7C 20 45 6E	      BYTE " | Enter 2: For Tuesday         |", 0dh, 0ah
+	   74 65 72 20 32
+	   3A 20 46 6F 72
+	   20 54 75 65 73
+	   64 61 79 20 20
+	   20 20 20 20 20
+	   20 20 7C 0D 0A
+ 000003F6  20 7C 20 45 6E	      BYTE " | Enter 3: For Wednesday       |", 0dh, 0ah
+	   74 65 72 20 33
+	   3A 20 46 6F 72
+	   20 57 65 64 6E
+	   65 73 64 61 79
+	   20 20 20 20 20
+	   20 20 7C 0D 0A
+ 00000419  20 7C 20 45 6E	      BYTE " | Enter 4: For Thursday        |", 0dh, 0ah
+	   74 65 72 20 34
+	   3A 20 46 6F 72
+	   20 54 68 75 72
 	   73 64 61 79 20
-	   7C 0D 0A
- 000003FB  7C 20 45 6E 74	      BYTE "| Enter 4: For Thursday |", 0dh, 0ah
-	   65 72 20 34 3A
-	   20 46 6F 72 20
-	   54 68 75 72 73
-	   64 61 79 20 7C
-	   0D 0A
- 00000416  7C 20 45 6E 74	      BYTE "| Enter 5: For Friday |", 0dh, 0ah
-	   65 72 20 35 3A
-	   20 46 6F 72 20
-	   46 72 69 64 61
-	   79 20 7C 0D 0A
- 0000042F  20 2D 2D 2D 2D	      BYTE " ------------------------------ ", 0
+	   20 20 20 20 20
+	   20 20 7C 0D 0A
+ 0000043C  20 7C 20 45 6E	      BYTE " | Enter 5: For Friday          |", 0dh, 0ah
+	   74 65 72 20 35
+	   3A 20 46 6F 72
+	   20 46 72 69 64
+	   61 79 20 20 20
+	   20 20 20 20 20
+	   20 20 7C 0D 0A
+ 0000045F  20 20 2D 2D 2D	      BYTE "  ------------------------------ ", 0
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
 	   2D 2D 2D 2D 2D
-	   2D 20 00
+	   2D 2D 20 00
+
+ 00000481 6E 61 6D 65 2E	fileToStoreName BYTE "name.txt", 0
+	   74 78 74 00
+ 0000048A 68 6F 75 72 73	fileToStoreHours BYTE "hours.txt", 0
+	   2E 74 78 74 00
+ 00000494 70 61 79 2E 74	fileToStorePay BYTE "pay.txt", 0
+	   78 74 00
+ 0000049C 00000000		filehandle DWORD ?
+ 000004A0 00000000		bytesWritten DWORD ?
+
 
  00000000			.code
 
  00000000			calSum proc														;procedure to calculate total hours worked in a week
 
- 00000000  A1 000002E7 R		mov eax, hoursEmployeeWorkedOnDay1
- 00000005  03 05 000002EB R		add eax, hoursEmployeeWorkedOnDay2
- 0000000B  03 05 000002EF R		add eax, hoursEmployeeWorkedOnDay3
- 00000011  03 05 000002F3 R		add eax, hoursEmployeeWorkedOnDay4
- 00000017  03 05 000002F7 R		add eax, hoursEmployeeWorkedOnDay5
+ 00000000  A1 000002EB R		mov eax, hoursEmployeeWorkedOnDay1
+ 00000005  03 05 000002EF R		add eax, hoursEmployeeWorkedOnDay2
+ 0000000B  03 05 000002F3 R		add eax, hoursEmployeeWorkedOnDay3
+ 00000011  03 05 000002F7 R		add eax, hoursEmployeeWorkedOnDay4
+ 00000017  03 05 000002FB R		add eax, hoursEmployeeWorkedOnDay5
 
  0000001D  C3				ret
 
@@ -295,448 +313,523 @@ project.asm						     Page 1 - 1
 
  0000001E			main proc
 						
- 0000001E  E8 00000000 E	     call crlf
- 00000023  BA 00000000 R		 mov edx, offset titleOfProject								;moving address of title of project into edx to print it
- 00000028  E8 00000000 E		 call writestring
- 0000002D  E8 00000000 E		 call crlf
- 00000032  E8 00000000 E		 call crlf
+					INVOKE CreateFile,
+						ADDR fileToStoreName, ; ptr to filename
+						GENERIC_READ, ; mode = Can read
+						DO_NOT_SHARE, ; share mode
+						NULL, ; ptr to security attributes
+						OPEN_EXISTING, ; open an existing file
+						FILE_ATTRIBUTE_NORMAL, ; normal file attribute
+						0 ; not used
+ 0000001E  6A 00	   *	    push   +000000000h
+ 00000020  68 00000080	   *	    push   +000000080h
+ 00000025  6A 03	   *	    push   +000000003h
+ 00000027  6A 00	   *	    push   +000000000h
+ 00000029  6A 00	   *	    push   +000000000h
+ 0000002B  68 80000000	   *	    push   +080000000h
+ 00000030  68 00000481 R   *	    push   OFFSET fileToStoreName
+ 00000035  E8 00000000 E   *	    call   CreateFileA
 
- 00000037				 start:
+ 0000003A  83 F8 FF				cmp eax, INVALID_HANDLE_VALUE
+ 0000003D  0F 84 000005A6			je errr
+ 00000043  A3 0000049C R			mov filehandle, eax ; Copy handle to variable
+
+ 00000048  BA 000002DC R			mov edx, offset nameOfEmployee
+ 0000004D  B9 0000000F		mov ecx, sizeof nameOfEmployee
+ 00000052  E8 00000000 E			call readFromFile
+
+
+						invoke CloseHandle, filehandle
+ 00000057  FF 35 0000049C R *	    push   filehandle
+ 0000005D  E8 00000000 E   *	    call   CloseHandle
+
+
+ 00000062  E8 00000000 E	     call crlf
+ 00000067  BA 00000000 R		 mov edx, offset titleOfProject								;moving address of title of project into edx to print it
+ 0000006C  E8 00000000 E		 call writestring
+ 00000071  E8 00000000 E		 call crlf
+ 00000076  E8 00000000 E		 call crlf
+
+ 0000007B				 start:
 						
- 00000037  BA 00000050 R			   mov edx, offset menu			
- 0000003C  E8 00000000 E			   call writestring										;printing the menu on console
- 00000041  E8 00000000 E			   call crlf
- 00000046  E8 00000000 E			   call crlf
+ 0000007B  BA 00000050 R			   mov edx, offset menu			
+ 00000080  E8 00000000 E			   call writestring										;printing the menu on console
+ 00000085  E8 00000000 E			   call crlf
+ 0000008A  E8 00000000 E			   call crlf
 
- 0000004B  BA 000000D3 R			   mov edx, offset selection						
- 00000050  E8 00000000 E			   call writestring										;printing the selection prompt on console
+ 0000008F  BA 000000D3 R			   mov edx, offset selection						
+ 00000094  E8 00000000 E			   call writestring										;printing the selection prompt on console
 
- 00000055  E8 00000000 E			   call readint
+ 00000099  E8 00000000 E			   call readint
 
- 0000005A  83 F8 01				cmp eax, 1												;comparing selection result for jumping at particular label
- 0000005D  74 29				je L1
- 0000005F  83 F8 02				cmp eax, 2												;comparing selection result for jumping at particular label
- 00000062  0F 84 000001A1			je L2
- 00000068  83 F8 03		cmp eax, 3												;comparing selection result for jumping at particular label			
- 0000006B  0F 84 00000326			je L3
- 00000071  83 F8 04				cmp eax, 4
- 00000074  0F 84 00000445			je generatePaySlip
- 0000007A  83 F8 05				cmp eax, 5												;comparing selection result for jumping at particular label
- 0000007D  0F 84 000004CE			je _exit												;jumping to end of program if option 4 is selected
+ 0000009E  83 F8 01				cmp eax, 1												;comparing selection result for jumping at particular label
+ 000000A1  74 29				je L1
+ 000000A3  83 F8 02				cmp eax, 2												;comparing selection result for jumping at particular label
+ 000000A6  0F 84 000001A1			je L2
+ 000000AC  83 F8 03				cmp eax, 3												;comparing selection result for jumping at particular label			
+ 000000AF  0F 84 00000326			je L3
+ 000000B5  83 F8 04				cmp eax, 4
+ 000000B8  0F 84 0000044F			je generatePaySlip
+ 000000BE  83 F8 05				cmp eax, 5												;comparing selection result for jumping at particular label
+ 000000C1  0F 84 000004D8			je _exit												;jumping to end of program if option 4 is selected
 
- 00000083  E9 00000419				jmp err													;handling exception
+ 000000C7  E9 00000423				jmp err													;handling exception
 
 
 
- 00000088					L1:
- 00000088  E8 00000000 E			   call crlf
- 0000008D  E8 00000000 E			   call crlf
+ 000000CC					L1:
+ 000000CC  E8 00000000 E			   call crlf
+ 000000D1  E8 00000000 E			   call crlf
 
- 00000092  BA 000000F8 R				mov edx, offset nameEnter							
- 00000097  E8 00000000 E				call writestring									;displaying prompt of asking user for his/her name
+ 000000D6  BA 000000F8 R				mov edx, offset nameEnter							
+ 000000DB  E8 00000000 E				call writestring									;displaying prompt of asking user for his/her name
 
- 0000009C  BA 000002D8 R				mov edx, offset nameOfEmployee
- 000000A1  B9 0000000F					mov ecx, sizeof nameOfEmployee
- 000000A6  E8 00000000 E				call readstring										;taking name as a input from the user
- 000000AB  E8 00000000 E				call crlf
+ 000000E0  BA 000002DC R				mov edx, offset nameOfEmployee
+ 000000E5  B9 0000000F					mov ecx, sizeof nameOfEmployee
+ 000000EA  E8 00000000 E				call readstring										;taking name as a input from the user
+ 000000EF  E8 00000000 E				call crlf
 
- 000000B0  BA 0000038A R				mov edx, offset equals
- 000000B5  E8 00000000 E				call writestring									;displaying number day corresponding table
- 000000BA  E8 00000000 E				call crlf
- 000000BF  E8 00000000 E				call crlf
+ 000000F4  BA 0000038E R				mov edx, offset equals
+ 000000F9  E8 00000000 E				call writestring									;displaying number day corresponding table
+ 000000FE  E8 00000000 E				call crlf
+ 00000103  E8 00000000 E				call crlf
 
- 000000C4  BA 0000010A R				mov edx, offset dayEnter
- 000000C9  E8 00000000 E				call writestring									;displaying prompt of asking user for the day
+ 00000108  BA 0000010A R				mov edx, offset dayEnter
+ 0000010D  E8 00000000 E				call writestring									;displaying prompt of asking user for the day
 
- 000000CE  83 3D 000002B8 R				cmp counter, 1										;comparing entered day result for jumping at particular label
+ 00000112  83 3D 000002B8 R				cmp counter, 1										;comparing entered day result for jumping at particular label
 	   01
- 000000D5  74 24					je day_1
- 000000D7  83 3D 000002B8 R				cmp counter, 2										;comparing entered day result for jumping at particular label
+ 00000119  74 24					je day_1
+ 0000011B  83 3D 000002B8 R				cmp counter, 2										;comparing entered day result for jumping at particular label
 	   02
- 000000DE  74 2C					je day_2
- 000000E0  83 3D 000002B8 R				cmp counter, 3										;comparing entered day result for jumping at particular label
+ 00000122  74 2C					je day_2
+ 00000124  83 3D 000002B8 R				cmp counter, 3										;comparing entered day result for jumping at particular label
 	   03
- 000000E7  74 34					je day_3
- 000000E9  83 3D 000002B8 R				cmp counter, 4										;comparing entered day result for jumping at particular label
+ 0000012B  74 34					je day_3
+ 0000012D  83 3D 000002B8 R				cmp counter, 4										;comparing entered day result for jumping at particular label
 	   04
- 000000F0  74 3C					je day_4
- 000000F2  83 3D 000002B8 R				cmp counter, 5										;comparing entered day result for jumping at particular label
+ 00000134  74 3C					je day_4
+ 00000136  83 3D 000002B8 R				cmp counter, 5										;comparing entered day result for jumping at particular label
 	   05
- 000000F9  74 44					je day_5
+ 0000013D  74 44					je day_5
 
- 000000FB						day_1: 
- 000000FB  E8 00000000 E					call readint									
- 00000100  A3 000002C4 R					mov day1, eax									;storing received value in a variable
- 00000105  E8 00000000 E					call crlf
- 0000010A  EB 44						jmp hours
- 0000010C						day_2:
- 0000010C  E8 00000000 E					call readint
- 00000111  A3 000002C8 R					mov day2, eax									;storing received value in a variable
- 00000116  E8 00000000 E					call crlf
- 0000011B  EB 33						jmp hours
-
- 0000011D						day_3:
- 0000011D  E8 00000000 E					call readint
- 00000122  A3 000002CC R					mov day3, eax									;storing received value in a variable
- 00000127  E8 00000000 E					call crlf
- 0000012C  EB 22						jmp hours
-
- 0000012E						day_4:
- 0000012E  E8 00000000 E					call readint
- 00000133  A3 000002D0 R					mov day4, eax									;storing received value in a variable
- 00000138  E8 00000000 E					call crlf
- 0000013D  EB 11						jmp hours
-
- 0000013F						day_5:
- 0000013F  E8 00000000 E					call readint
- 00000144  A3 000002D4 R					mov day5, eax									;storing received value in a variable
+ 0000013F						day_1: 
+ 0000013F  E8 00000000 E					call readint									
+ 00000144  A3 000002C8 R					mov day1, eax									;storing received value in a variable
  00000149  E8 00000000 E					call crlf
- 0000014E  EB 00						jmp hours
+ 0000014E  EB 44						jmp hours
+ 00000150						day_2:
+ 00000150  E8 00000000 E					call readint
+ 00000155  A3 000002CC R					mov day2, eax									;storing received value in a variable
+ 0000015A  E8 00000000 E					call crlf
+ 0000015F  EB 33						jmp hours
+
+ 00000161						day_3:
+ 00000161  E8 00000000 E					call readint
+ 00000166  A3 000002D0 R					mov day3, eax									;storing received value in a variable
+ 0000016B  E8 00000000 E					call crlf
+ 00000170  EB 22						jmp hours
+
+ 00000172						day_4:
+ 00000172  E8 00000000 E					call readint
+ 00000177  A3 000002D4 R					mov day4, eax									;storing received value in a variable
+ 0000017C  E8 00000000 E					call crlf
+ 00000181  EB 11						jmp hours
+
+ 00000183						day_5:
+ 00000183  E8 00000000 E					call readint
+ 00000188  A3 000002D8 R					mov day5, eax									;storing received value in a variable
+ 0000018D  E8 00000000 E					call crlf
+ 00000192  EB 00						jmp hours
 								
 
- 00000150					hours:
- 00000150  BA 0000011A R				mov edx, offset hoursEnter					
- 00000155  E8 00000000 E				call writestring	
+ 00000194					hours:
+ 00000194  BA 0000011A R				mov edx, offset hoursEnter					
+ 00000199  E8 00000000 E				call writestring	
 
- 0000015A  83 3D 000002B8 R				cmp counter, 1										;comparing counter for jumping at particular label
+ 0000019E  83 3D 000002B8 R				cmp counter, 1										;comparing counter for jumping at particular label
 	   01
- 00000161  74 24					je monday
- 00000163  83 3D 000002B8 R				cmp counter, 2										;comparing counter for jumping at particular label
+ 000001A5  74 24					je monday
+ 000001A7  83 3D 000002B8 R				cmp counter, 2										;comparing counter for jumping at particular label
 	   02
- 0000016A  74 35					je tuesday
- 0000016C  83 3D 000002B8 R				cmp counter, 3										;comparing counter for jumping at particular label
+ 000001AE  74 35					je tuesday
+ 000001B0  83 3D 000002B8 R				cmp counter, 3										;comparing counter for jumping at particular label
 	   03
- 00000173  74 46					je wednesday
- 00000175  83 3D 000002B8 R				cmp counter, 4										;comparing counter for jumping at particular label
+ 000001B7  74 46					je wednesday
+ 000001B9  83 3D 000002B8 R				cmp counter, 4										;comparing counter for jumping at particular label
 	   04
- 0000017C  74 57					je thursday
- 0000017E  83 3D 000002B8 R				cmp counter, 5										;comparing counter for jumping at particular label
+ 000001C0  74 57					je thursday
+ 000001C2  83 3D 000002B8 R				cmp counter, 5										;comparing counter for jumping at particular label
 	   05
- 00000185  74 68					je friday
+ 000001C9  74 68					je friday
 							
- 00000187						monday: 
- 00000187  E8 00000000 E					call readint
- 0000018C  A3 000002E7 R					mov hoursEmployeeWorkedOnDay1, eax				;storing received value in a variable
- 00000191  E8 00000000 E					call crlf
- 00000196  FF 05 000002B8 R					inc counter
- 0000019C  E9 FFFFFE96						jmp start
+ 000001CB						monday: 
+ 000001CB  E8 00000000 E					call readint
+ 000001D0  A3 000002EB R					mov hoursEmployeeWorkedOnDay1, eax				;storing received value in a variable
+ 000001D5  E8 00000000 E					call crlf
+ 000001DA  FF 05 000002B8 R					inc counter
+ 000001E0  E9 FFFFFE96						jmp start
 
 
- 000001A1						tuesday:
- 000001A1  E8 00000000 E					call readint
- 000001A6  A3 000002EB R					mov hoursEmployeeWorkedOnDay2, eax				;storing received value in a variable
- 000001AB  E8 00000000 E					call crlf
- 000001B0  FF 05 000002B8 R					inc counter
- 000001B6  E9 FFFFFE7C						jmp start
+ 000001E5						tuesday:
+ 000001E5  E8 00000000 E					call readint
+ 000001EA  A3 000002EF R					mov hoursEmployeeWorkedOnDay2, eax				;storing received value in a variable
+ 000001EF  E8 00000000 E					call crlf
+ 000001F4  FF 05 000002B8 R					inc counter
+ 000001FA  E9 FFFFFE7C						jmp start
 
- 000001BB						wednesday:
+ 000001FF						wednesday:
 
- 000001BB  E8 00000000 E					call readint
- 000001C0  A3 000002EF R					mov hoursEmployeeWorkedOnDay3, eax				;storing received value in a variable
- 000001C5  E8 00000000 E					call crlf
- 000001CA  FF 05 000002B8 R					inc counter
- 000001D0  E9 FFFFFE62						jmp start
+ 000001FF  E8 00000000 E					call readint
+ 00000204  A3 000002F3 R					mov hoursEmployeeWorkedOnDay3, eax				;storing received value in a variable
+ 00000209  E8 00000000 E					call crlf
+ 0000020E  FF 05 000002B8 R					inc counter
+ 00000214  E9 FFFFFE62						jmp start
 
- 000001D5						thursday:
+ 00000219						thursday:
 
- 000001D5  E8 00000000 E					call readint
- 000001DA  A3 000002F3 R					mov hoursEmployeeWorkedOnDay4, eax				;storing received value in a variable
- 000001DF  E8 00000000 E					call crlf
- 000001E4  FF 05 000002B8 R					inc counter
- 000001EA  E9 FFFFFE48						jmp start
+ 00000219  E8 00000000 E					call readint
+ 0000021E  A3 000002F7 R					mov hoursEmployeeWorkedOnDay4, eax				;storing received value in a variable
+ 00000223  E8 00000000 E					call crlf
+ 00000228  FF 05 000002B8 R					inc counter
+ 0000022E  E9 FFFFFE48						jmp start
 
- 000001EF						friday:
+ 00000233						friday:
 								
- 000001EF  E8 00000000 E					call readint
- 000001F4  A3 000002F7 R					mov hoursEmployeeWorkedOnDay5, eax				;storing received value in a variable
- 000001F9  E8 00000000 E					call crlf	
- 000001FE  FF 05 000002B8 R					inc counter
- 00000204  E9 FFFFFE2E						jmp start
+ 00000233  E8 00000000 E					call readint
+ 00000238  A3 000002FB R					mov hoursEmployeeWorkedOnDay5, eax				;storing received value in a variable
+ 0000023D  E8 00000000 E					call crlf	
+ 00000242  FF 05 000002B8 R					inc counter
+ 00000248  E9 FFFFFE2E						jmp start
 
- 00000209					L2:
- 00000209  E8 00000000 E				call crlf
- 0000020E  BA 00000143 R				mov edx, offset leaveConfirmation
- 00000213  E8 00000000 E				call writestring									;displaying prompt which will ask user to confirm leave
- 00000218  E8 00000000 E				call readint
+ 0000024D					L2:
+ 0000024D  E8 00000000 E				call crlf
+ 00000252  BA 00000143 R				mov edx, offset leaveConfirmation
+ 00000257  E8 00000000 E				call writestring									;displaying prompt which will ask user to confirm leave
+ 0000025C  E8 00000000 E				call readint
 							
- 0000021D  83 F8 00					cmp eax, 0											;comparing entered value for jumping at particular label
- 00000220  0F 84 FFFFFE11				je start
+ 00000261  83 F8 00					cmp eax, 0											;comparing entered value for jumping at particular label
+ 00000264  0F 84 FFFFFE11				je start
 
- 00000226  FE 05 000002B7 R				inc leaveCount
- 0000022C  80 3D 000002B7 R				cmp leaveCount, 1
+ 0000026A  FE 05 000002B7 R				inc leaveCount
+ 00000270  80 3D 000002B7 R				cmp leaveCount, 1
 	   01
- 00000233  0F 8F 0000024A				jg L4
- 00000239  E8 00000000 E				call crlf
+ 00000277  0F 8F 00000254				jg L4
+ 0000027D  E8 00000000 E				call crlf
 
- 0000023E  BA 000000F8 R				mov edx, offset nameEnter
- 00000243  E8 00000000 E				call writestring									;displaying prompt of asking user for his/her name
+ 00000282  BA 000000F8 R				mov edx, offset nameEnter
+ 00000287  E8 00000000 E				call writestring									;displaying prompt of asking user for his/her name
 
- 00000248  BA 000002D8 R				mov edx, offset nameOfEmployee
- 0000024D  B9 0000000F					mov ecx, sizeof nameOfEmployee
- 00000252  E8 00000000 E				call readstring										;taking name as a input from the user
- 00000257  E8 00000000 E				call crlf
+ 0000028C  BA 000002DC R				mov edx, offset nameOfEmployee
+ 00000291  B9 0000000F					mov ecx, sizeof nameOfEmployee
+ 00000296  E8 00000000 E				call readstring										;taking name as a input from the user
+ 0000029B  E8 00000000 E				call crlf
 
- 0000025C  BA 0000038A R				mov edx, offset equals
- 00000261  E8 00000000 E				call writestring									;displaying number day corresponding table
- 00000266  E8 00000000 E				call crlf
+ 000002A0  BA 0000038E R				mov edx, offset equals
+ 000002A5  E8 00000000 E				call writestring									;displaying number day corresponding table
+ 000002AA  E8 00000000 E				call crlf
 
- 0000026B  BA 0000010A R				mov edx, offset dayEnter
- 00000270  E8 00000000 E				call writestring									;displaying prompt of asking user for the day
+ 000002AF  BA 0000010A R				mov edx, offset dayEnter
+ 000002B4  E8 00000000 E				call writestring									;displaying prompt of asking user for the day
 
- 00000275  83 3D 000002B8 R				cmp counter, 1										;comparing entered day result for jumping at particular label
+ 000002B9  83 3D 000002B8 R				cmp counter, 1										;comparing entered day result for jumping at particular label
 	   01
- 0000027C  74 24					je days_1
- 0000027E  83 3D 000002B8 R				cmp counter, 2										;comparing entered day result for jumping at particular label
+ 000002C0  74 24					je days_1
+ 000002C2  83 3D 000002B8 R				cmp counter, 2										;comparing entered day result for jumping at particular label
 	   02
- 00000285  74 2C					je days_2
- 00000287  83 3D 000002B8 R				cmp counter, 3										;comparing entered day result for jumping at particular label
+ 000002C9  74 2C					je days_2
+ 000002CB  83 3D 000002B8 R				cmp counter, 3										;comparing entered day result for jumping at particular label
 	   03
- 0000028E  74 34					je days_3
- 00000290  83 3D 000002B8 R				cmp counter, 4										;comparing entered day result for jumping at particular label
+ 000002D2  74 34					je days_3
+ 000002D4  83 3D 000002B8 R				cmp counter, 4										;comparing entered day result for jumping at particular label
 	   04
- 00000297  74 3C					je days_4
- 00000299  83 3D 000002B8 R				cmp counter, 5										;comparing entered day result for jumping at particular label
+ 000002DB  74 3C					je days_4
+ 000002DD  83 3D 000002B8 R				cmp counter, 5										;comparing entered day result for jumping at particular label
 	   05
- 000002A0  74 44					je days_5
+ 000002E4  74 44					je days_5
 
- 000002A2						days_1: 
- 000002A2  E8 00000000 E					call readint
- 000002A7  A3 000002C4 R					mov day1, eax									;storing received value in a variable
- 000002AC  E8 00000000 E					call crlf
- 000002B1  EB 44						jmp hour
- 000002B3						days_2:
- 000002B3  E8 00000000 E					call readint
- 000002B8  A3 000002C8 R					mov day2, eax									;storing received value in a variable
- 000002BD  E8 00000000 E					call crlf
- 000002C2  EB 33						jmp hour
-
- 000002C4						days_3:
- 000002C4  E8 00000000 E					call readint
- 000002C9  A3 000002CC R					mov day3, eax									;storing received value in a variable
- 000002CE  E8 00000000 E					call crlf
- 000002D3  EB 22						jmp hour
-
- 000002D5						days_4:
- 000002D5  E8 00000000 E					call readint
- 000002DA  A3 000002D0 R					mov day4, eax									;storing received value in a variable
- 000002DF  E8 00000000 E					call crlf
- 000002E4  EB 11						jmp hour
-
- 000002E6						days_5:
+ 000002E6						days_1: 
  000002E6  E8 00000000 E					call readint
- 000002EB  A3 000002D4 R					mov day5, eax									;storing received value in a variable
+ 000002EB  A3 000002C8 R					mov day1, eax									;storing received value in a variable
  000002F0  E8 00000000 E					call crlf
- 000002F5  EB 00						jmp hour
+ 000002F5  EB 44						jmp hour
+ 000002F7						days_2:
+ 000002F7  E8 00000000 E					call readint
+ 000002FC  A3 000002CC R					mov day2, eax									;storing received value in a variable
+ 00000301  E8 00000000 E					call crlf
+ 00000306  EB 33						jmp hour
+
+ 00000308						days_3:
+ 00000308  E8 00000000 E					call readint
+ 0000030D  A3 000002D0 R					mov day3, eax									;storing received value in a variable
+ 00000312  E8 00000000 E					call crlf
+ 00000317  EB 22						jmp hour
+
+ 00000319						days_4:
+ 00000319  E8 00000000 E					call readint
+ 0000031E  A3 000002D4 R					mov day4, eax									;storing received value in a variable
+ 00000323  E8 00000000 E					call crlf
+ 00000328  EB 11						jmp hour
+
+ 0000032A						days_5:
+ 0000032A  E8 00000000 E					call readint
+ 0000032F  A3 000002D8 R					mov day5, eax									;storing received value in a variable
+ 00000334  E8 00000000 E					call crlf
+ 00000339  EB 00						jmp hour
 								
 
- 000002F7					hour:
+ 0000033B					hour:
 
- 000002F7  83 3D 000002B8 R				cmp counter, 1										;comparing counter for jumping at particular label
+ 0000033B  83 3D 000002B8 R				cmp counter, 1										;comparing counter for jumping at particular label
 	   01
- 000002FE  74 24					je mon
- 00000300  83 3D 000002B8 R				cmp counter, 2										;comparing counter for jumping at particular label
+ 00000342  74 24					je mon
+ 00000344  83 3D 000002B8 R				cmp counter, 2										;comparing counter for jumping at particular label
 	   02
- 00000307  74 2D					je tues
- 00000309  83 3D 000002B8 R				cmp counter, 3										;comparing counter for jumping at particular label
+ 0000034B  74 2D					je tues
+ 0000034D  83 3D 000002B8 R				cmp counter, 3										;comparing counter for jumping at particular label
 	   03
- 00000310  74 36					je wed
- 00000312  83 3D 000002B8 R				cmp counter, 4										;comparing counter for jumping at particular label
+ 00000354  74 36					je wed
+ 00000356  83 3D 000002B8 R				cmp counter, 4										;comparing counter for jumping at particular label
 	   04
- 00000319  74 3F					je thurs
- 0000031B  83 3D 000002B8 R				cmp counter, 5										;comparing counter for jumping at particular label
+ 0000035D  74 3F					je thurs
+ 0000035F  83 3D 000002B8 R				cmp counter, 5										;comparing counter for jumping at particular label
 	   05
- 00000322  74 48					je fri
+ 00000366  74 48					je fri
 							
- 00000324						mon: 
- 00000324  C7 05 000002E7 R					mov hoursEmployeeWorkedOnDay1, 8				;storing received value in a variable
+ 00000368						mon: 
+ 00000368  C7 05 000002EB R					mov hoursEmployeeWorkedOnDay1, 8				;storing received value in a variable
 	   00000008
- 0000032E  FF 05 000002B8 R					inc counter
- 00000334  EB 48						jmp leaveConfirm
+ 00000372  FF 05 000002B8 R					inc counter
+ 00000378  EB 48						jmp leaveConfirm
 
- 00000336						tues:
- 00000336  C7 05 000002EB R					mov hoursEmployeeWorkedOnDay2, 8				;storing received value in a variable
+ 0000037A						tues:
+ 0000037A  C7 05 000002EF R					mov hoursEmployeeWorkedOnDay2, 8				;storing received value in a variable
 	   00000008
- 00000340  FF 05 000002B8 R					inc counter
- 00000346  EB 36						jmp leaveConfirm
+ 00000384  FF 05 000002B8 R					inc counter
+ 0000038A  EB 36						jmp leaveConfirm
 
- 00000348						wed:
+ 0000038C						wed:
 
- 00000348  C7 05 000002EF R					mov hoursEmployeeWorkedOnDay3, 8				;storing received value in a variable
+ 0000038C  C7 05 000002F3 R					mov hoursEmployeeWorkedOnDay3, 8				;storing received value in a variable
 	   00000008
- 00000352  FF 05 000002B8 R					inc counter
- 00000358  EB 24						jmp leaveConfirm
+ 00000396  FF 05 000002B8 R					inc counter
+ 0000039C  EB 24						jmp leaveConfirm
 
- 0000035A						thurs:
+ 0000039E						thurs:
 
- 0000035A  C7 05 000002F3 R					mov hoursEmployeeWorkedOnDay4, 8				;storing received value in a variable
+ 0000039E  C7 05 000002F7 R					mov hoursEmployeeWorkedOnDay4, 8				;storing received value in a variable
 	   00000008
- 00000364  FF 05 000002B8 R					inc counter
- 0000036A  EB 12						jmp leaveConfirm
+ 000003A8  FF 05 000002B8 R					inc counter
+ 000003AE  EB 12						jmp leaveConfirm
 
- 0000036C						fri:
+ 000003B0						fri:
 								
- 0000036C  C7 05 000002F7 R					mov hoursEmployeeWorkedOnDay5, 8				;storing received value in a variable
+ 000003B0  C7 05 000002FB R					mov hoursEmployeeWorkedOnDay5, 8				;storing received value in a variable
 	   00000008
- 00000376  FF 05 000002B8 R					inc counter
- 0000037C  EB 00						jmp leaveConfirm
+ 000003BA  FF 05 000002B8 R					inc counter
+ 000003C0  EB 00						jmp leaveConfirm
 
- 0000037E					leaveConfirm:
+ 000003C2					leaveConfirm:
 
- 0000037E  BA 00000187 R				mov edx, offset confirmedLeave
- 00000383  E8 00000000 E				call writestring									;displaying the prompt to tell user that leave has been confirmed
- 00000388  E8 00000000 E				call crlf
- 0000038D  E8 00000000 E				call crlf
+ 000003C2  BA 00000187 R				mov edx, offset confirmedLeave
+ 000003C7  E8 00000000 E				call writestring									;displaying the prompt to tell user that leave has been confirmed
+ 000003CC  E8 00000000 E				call crlf
+ 000003D1  E8 00000000 E				call crlf
 
- 00000392  E9 FFFFFCA0					jmp start
+ 000003D6  E9 FFFFFCA0					jmp start
 
- 00000397					L3:
- 00000397  E8 00000000 E				call crlf
- 0000039C  BA 000002FB R				mov edx, offset space
- 000003A1  E8 00000000 E				call writestring									
- 000003A6  BA 0000028B R				mov edx, offset nameHeading
- 000003AB  E8 00000000 E				call writestring									;displaying name heading
- 000003B0  BA 00000298 R				mov edx, offset dayHeading
- 000003B5  E8 00000000 E				call writestring									;displaying day heading
- 000003BA  BA 000002A4 R				mov edx, offset hourHeading
- 000003BF  E8 00000000 E				call writestring									;displaying hour heading
- 000003C4  E8 00000000 E				call crlf
+ 000003DB					L3:
+ 000003DB  E8 00000000 E				call crlf
+ 000003E0  BA 000002FF R				mov edx, offset space
+ 000003E5  E8 00000000 E				call writestring									
+ 000003EA  BA 0000028B R				mov edx, offset nameHeading
+ 000003EF  E8 00000000 E				call writestring									;displaying name heading
+ 000003F4  BA 00000298 R				mov edx, offset dayHeading
+ 000003F9  E8 00000000 E				call writestring									;displaying day heading
+ 000003FE  BA 000002A4 R				mov edx, offset hourHeading
+ 00000403  E8 00000000 E				call writestring									;displaying hour heading
+ 00000408  E8 00000000 E				call crlf
 
 							INVOKE print, day1, hoursEmployeeWorkedOnDay1		;procedure to display on console
- 000003C9  FF 35 000002E7 R *	    push   hoursEmployeeWorkedOnDay1
- 000003CF  FF 35 000002C4 R *	    push   day1
- 000003D5  E8 00000177	   *	    call   print
- 000003DA  E8 00000000 E				call crlf
+ 0000040D  FF 35 000002EB R *	    push   hoursEmployeeWorkedOnDay1
+ 00000413  FF 35 000002C8 R *	    push   day1
+ 00000419  E8 000001D0	   *	    call   print
+ 0000041E  E8 00000000 E				call crlf
 							INVOKE print, day2, hoursEmployeeWorkedOnDay2		;procedure to display on console
- 000003DF  FF 35 000002EB R *	    push   hoursEmployeeWorkedOnDay2
- 000003E5  FF 35 000002C8 R *	    push   day2
- 000003EB  E8 00000161	   *	    call   print
- 000003F0  E8 00000000 E				call crlf
+ 00000423  FF 35 000002EF R *	    push   hoursEmployeeWorkedOnDay2
+ 00000429  FF 35 000002CC R *	    push   day2
+ 0000042F  E8 000001BA	   *	    call   print
+ 00000434  E8 00000000 E				call crlf
 							INVOKE print, day3, hoursEmployeeWorkedOnDay3		;procedure to display on console
- 000003F5  FF 35 000002EF R *	    push   hoursEmployeeWorkedOnDay3
- 000003FB  FF 35 000002CC R *	    push   day3
- 00000401  E8 0000014B	   *	    call   print
- 00000406  E8 00000000 E				call crlf
+ 00000439  FF 35 000002F3 R *	    push   hoursEmployeeWorkedOnDay3
+ 0000043F  FF 35 000002D0 R *	    push   day3
+ 00000445  E8 000001A4	   *	    call   print
+ 0000044A  E8 00000000 E				call crlf
 							INVOKE print, day4, hoursEmployeeWorkedOnDay4		;procedure to display on console
- 0000040B  FF 35 000002F3 R *	    push   hoursEmployeeWorkedOnDay4
- 00000411  FF 35 000002D0 R *	    push   day4
- 00000417  E8 00000135	   *	    call   print
- 0000041C  E8 00000000 E				call crlf
+ 0000044F  FF 35 000002F7 R *	    push   hoursEmployeeWorkedOnDay4
+ 00000455  FF 35 000002D4 R *	    push   day4
+ 0000045B  E8 0000018E	   *	    call   print
+ 00000460  E8 00000000 E				call crlf
 							INVOKE print, day5, hoursEmployeeWorkedOnDay5		;procedure to display on console
- 00000421  FF 35 000002F7 R *	    push   hoursEmployeeWorkedOnDay5
- 00000427  FF 35 000002D4 R *	    push   day5
- 0000042D  E8 0000011F	   *	    call   print
- 00000432  E8 00000000 E				call crlf
+ 00000465  FF 35 000002FB R *	    push   hoursEmployeeWorkedOnDay5
+ 0000046B  FF 35 000002D8 R *	    push   day5
+ 00000471  E8 00000178	   *	    call   print
+ 00000476  E8 00000000 E				call crlf
 
 
- 00000437  E8 00000000 E				call crlf
- 0000043C  E8 00000000 E				call crlf
- 00000441  BA 00000369 R				mov edx, offset hoursPrompt	
- 00000446  E8 00000000 E				call writeString
- 0000044B  E8 FFFFFBB0					call calSum											;calculating sum of hours
- 00000450  E8 00000000 E				call writeint
- 00000455  E8 00000000 E				call crlf
- 0000045A  E8 00000000 E				call crlf
+ 0000047B  E8 00000000 E				call crlf
+ 00000480  E8 00000000 E				call crlf
+ 00000485  BA 0000036D R				mov edx, offset hoursPrompt	
+ 0000048A  E8 00000000 E				call writeString
+ 0000048F  E8 FFFFFB6C					call calSum											;calculating sum of hours
+ 00000494  A3 000002C4 R				mov totalHours, eax
+ 00000499  E8 00000000 E				call writeint
+ 0000049E  E8 00000000 E				call crlf
+ 000004A3  E8 00000000 E				call crlf
 
- 0000045F  BA 0000037E R				mov edx, offset totalPayPrompt
- 00000464  E8 00000000 E				call writestring
- 00000469  F7 25 000002B3 R				mul salaryPerHour									;calculating total salary
- 0000046F  E8 00000000 E				call writeint
- 00000474  E8 00000000 E				call crlf
- 00000479  E8 00000000 E				call crlf
+ 000004A8  BA 00000382 R				mov edx, offset totalPayPrompt
+ 000004AD  E8 00000000 E				call writestring
+ 000004B2  F7 25 000002B3 R				mul salaryPerHour									;calculating total salary
+ 000004B8  A3 000002C0 R				mov totalPay, eax
+ 000004BD  E8 00000000 E				call writeint
+ 000004C2  E8 00000000 E				call crlf
+ 000004C7  E8 00000000 E				call crlf
 
- 0000047E  E9 FFFFFBB4					jmp start
+ 000004CC  E9 FFFFFBAA					jmp start
 
- 00000483					L4:
- 00000483  E8 00000000 E				call crlf
- 00000488  BA 000001A2 R				mov edx, offset deniedLeave	
- 0000048D  E8 00000000 E				call writestring									;prompt to display when the leave is denied
- 00000492  E8 00000000 E				call crlf
- 00000497  E8 00000000 E				call crlf
+ 000004D1					L4:
+ 000004D1  E8 00000000 E				call crlf
+ 000004D6  BA 000001A2 R				mov edx, offset deniedLeave	
+ 000004DB  E8 00000000 E				call writestring									;prompt to display when the leave is denied
+ 000004E0  E8 00000000 E				call crlf
+ 000004E5  E8 00000000 E				call crlf
 
- 0000049C  E9 FFFFFB96			        jmp start
+ 000004EA  E9 FFFFFB8C			        jmp start
 
- 000004A1				err:
- 000004A1  E8 00000000 E		    call crlf
- 000004A6  BA 00000304 R		    mov edx, offset error
- 000004AB  E8 00000000 E			call writestring										;error handling
+ 000004EF				err:
+ 000004EF  E8 00000000 E		    call crlf
+ 000004F4  BA 00000308 R		    mov edx, offset error
+ 000004F9  E8 00000000 E			call writestring										;error handling
 
- 000004B0  E8 00000000 E		call crlf
- 000004B5  E8 00000000 E			call crlf
+ 000004FE  E8 00000000 E			call crlf
+ 00000503  E8 00000000 E			call crlf
 
- 000004BA  E9 FFFFFB78				jmp start
+ 00000508  E9 FFFFFB6E				jmp start
 
- 000004BF				generatePaySlip:
- 000004BF  E8 00000000 E			call crlf
- 000004C4  E8 00000000 E			call crlf
+ 0000050D				generatePaySlip:
 
- 000004C9  BA 000001B8 R			mov edx, offset playSlip
- 000004CE  E8 00000000 E			call writestring
- 000004D3  E8 00000000 E			call crlf
- 000004D8  E8 00000000 E			call crlf
+ 0000050D  E8 00000000 E			call crlf
+ 00000512  E8 00000000 E			call crlf
 
- 000004DD  BA 0000022D R			mov edx, offset paySlipName
- 000004E2  E8 00000000 E			call writestring
+ 00000517  BA 000001B8 R			mov edx, offset playSlip
+ 0000051C  E8 00000000 E			call writestring
+ 00000521  E8 00000000 E			call crlf
+ 00000526  E8 00000000 E			call crlf
+
+ 0000052B  BA 0000022D R			mov edx, offset paySlipName
+ 00000530  E8 00000000 E			call writestring
 						
- 000004E7  BA 000002D8 R			mov edx, offset nameOfEmployee
- 000004EC  E8 00000000 E			call writestring
- 000004F1  E8 00000000 E			call crlf
- 000004F6  E8 00000000 E			call crlf
+ 00000535  BA 000002DC R			mov edx, offset nameOfEmployee
+ 0000053A  E8 00000000 E			call writestring
+ 0000053F  E8 00000000 E			call crlf
+ 00000544  E8 00000000 E			call crlf
 
- 000004FB  BA 00000246 R			mov edx, offset paySlipHours
- 00000500  E8 00000000 E			call writestring
- 00000505  E8 FFFFFAF6				call calSum											;calculating sum of hours
- 0000050A  E8 00000000 E			call writeint
- 0000050F  E8 00000000 E			call crlf
- 00000514  E8 00000000 E			call crlf
+ 00000549  BA 00000246 R			mov edx, offset paySlipHours
+ 0000054E  E8 00000000 E			call writestring
+ 00000553  E8 FFFFFAA8				call calSum											;calculating sum of hours
+ 00000558  E8 00000000 E			call writeint
+ 0000055D  E8 00000000 E			call crlf
+ 00000562  E8 00000000 E			call crlf
 						
- 00000519  BA 00000270 R			mov edx, offset	paySlipSalary
- 0000051E  E8 00000000 E			call writestring
- 00000523  F7 25 000002B3 R			mul salaryPerHour									;calculating total salary
- 00000529  E8 00000000 E			call writeint
+ 00000567  BA 00000270 R			mov edx, offset	paySlipSalary
+ 0000056C  E8 00000000 E			call writestring
+ 00000571  F7 25 000002B3 R			mul salaryPerHour									;calculating total salary
+ 00000577  E8 00000000 E			call writeint
 
- 0000052E  E8 00000000 E			call crlf
- 00000533  E8 00000000 E			call crlf
- 00000538  BA 000001F3 R			mov edx, offset ending
- 0000053D  E8 00000000 E			call writestring
- 00000542  E8 00000000 E			call crlf
- 00000547  E8 00000000 E			call crlf
- 0000054C  E9 FFFFFAE6				jmp start
+ 0000057C  E8 00000000 E			call crlf
+ 00000581  E8 00000000 E			call crlf
+ 00000586  BA 000001F3 R			mov edx, offset ending
+ 0000058B  E8 00000000 E			call writestring
+ 00000590  E8 00000000 E			call crlf
+ 00000595  E8 00000000 E			call crlf
+ 0000059A  E9 FFFFFADC				jmp start
 					
- 00000551				_exit:
+ 0000059F				_exit:
 
- 00000551			main endp
+						INVOKE CreateFile,
+						ADDR fileToStoreName, ; ptr to filename
+						GENERIC_WRITE, ; mode = Can read
+						DO_NOT_SHARE, ; share mode
+						NULL, ; ptr to security attributes
+						OPEN_EXISTING, ; open an existing file
+						FILE_ATTRIBUTE_NORMAL, ; normal file attribute
+						0 ; not used
+ 0000059F  6A 00	   *	    push   +000000000h
+ 000005A1  68 00000080	   *	    push   +000000080h
+ 000005A6  6A 03	   *	    push   +000000003h
+ 000005A8  6A 00	   *	    push   +000000000h
+ 000005AA  6A 00	   *	    push   +000000000h
+ 000005AC  68 40000000	   *	    push   +040000000h
+ 000005B1  68 00000481 R   *	    push   OFFSET fileToStoreName
+ 000005B6  E8 00000000 E   *	    call   CreateFileA
 
- 00000551			print proc uses edx, day: dword, hourWorked: dword				;procedure to display user date on console
+ 000005BB  83 F8 FF				cmp eax, INVALID_HANDLE_VALUE
+ 000005BE  74 29				je errr
+ 000005C0  A3 0000049C R			mov filehandle, eax ; Copy handle to variable
+
+
+						INVOKE WriteFile,
+						filehandle, ; file handle
+						addr nameOfEmployee, ; msg to write
+						sizeof nameOfEmployee, ; size of bytes to write
+						addr bytesWritten, ; num bytes written
+						0
+ 000005C5  6A 00	   *	    push   +000000000h
+ 000005C7  68 000004A0 R   *	    push   OFFSET bytesWritten
+ 000005CC  6A 0F	   *	    push   +00000000Fh
+ 000005CE  68 000002DC R   *	    push   OFFSET nameOfEmployee
+ 000005D3  FF 35 0000049C R *	    push   filehandle
+ 000005D9  E8 00000000 E   *	    call   WriteFile
+
+						invoke CloseHandle, filehandle
+ 000005DE  FF 35 0000049C R *	    push   filehandle
+ 000005E4  E8 00000000 E   *	    call   CloseHandle
+						
+ 000005E9					errr: 
+ 000005E9  E8 00000000 E				call writeWindowsMsg
+ 000005EE			main endp
+
+ 000005EE			print proc uses edx, day: dword, hourWorked: dword				;procedure to display user date on console
 					
- 00000551  55		   *	    push   ebp
- 00000552  8B EC	   *	    mov    ebp, esp
- 00000554  52		   *	    push   edx
- 00000555  BA 000002FB R		mov edx, offset space
- 0000055A  E8 00000000 E		call writestring
+ 000005EE  55		   *	    push   ebp
+ 000005EF  8B EC	   *	    mov    ebp, esp
+ 000005F1  52		   *	    push   edx
+ 000005F2  BA 000002FF R		mov edx, offset space
+ 000005F7  E8 00000000 E		call writestring
 
- 0000055F  BA 000002D8 R		mov edx, offset nameOfEmployee
- 00000564  E8 00000000 E		call writestring
+ 000005FC  BA 000002DC R		mov edx, offset nameOfEmployee
+ 00000601  E8 00000000 E		call writestring
 
- 00000569  BA 000002FB R		mov edx, offset space
- 0000056E  E8 00000000 E		call writestring
+ 00000606  BA 000002FF R		mov edx, offset space
+ 0000060B  E8 00000000 E		call writestring
 
- 00000573  8B 45 08			mov eax, day
- 00000576  E8 00000000 E		call writeint
+ 00000610  8B 45 08			mov eax, day
+ 00000613  E8 00000000 E		call writeint
 
- 0000057B  BA 000002FB R		mov edx, offset space
- 00000580  E8 00000000 E		call writestring
+ 00000618  BA 000002FF R		mov edx, offset space
+ 0000061D  E8 00000000 E		call writestring
 
- 00000585  8B 45 0C			mov eax,  hourWorked
- 00000588  E8 00000000 E		call writeint
+ 00000622  8B 45 0C			mov eax,  hourWorked
+ 00000625  E8 00000000 E		call writeint
 
 					ret
- 0000058D  5A		   *	    pop    edx
- 0000058E  C9		   *	    leave  
- 0000058F  C2 0008	   *	    ret    00008h
+ 0000062A  5A		   *	    pop    edx
+ 0000062B  C9		   *	    leave  
+ 0000062C  C2 0008	   *	    ret    00008h
 
- 00000592			print endp
+ 0000062F			print endp
 				end main
-Microsoft (R) Macro Assembler Version 14.23.28106.4	    12/17/19 11:12:39
+Microsoft (R) Macro Assembler Version 14.23.28106.4	    12/17/19 13:15:47
 project.asm						     Symbols 2 - 1
 
 
@@ -830,8 +923,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000450 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000592 Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 000004A4 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000062F Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -939,40 +1032,41 @@ WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 calSum . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000001E Public STDCALL
-main . . . . . . . . . . . . . .	P Near	 0000001E _TEXT	Length= 00000533 Public STDCALL
-  start  . . . . . . . . . . . .	L Near	 00000037 _TEXT	
-  L1 . . . . . . . . . . . . . .	L Near	 00000088 _TEXT	
-  day_1  . . . . . . . . . . . .	L Near	 000000FB _TEXT	
-  day_2  . . . . . . . . . . . .	L Near	 0000010C _TEXT	
-  day_3  . . . . . . . . . . . .	L Near	 0000011D _TEXT	
-  day_4  . . . . . . . . . . . .	L Near	 0000012E _TEXT	
-  day_5  . . . . . . . . . . . .	L Near	 0000013F _TEXT	
-  hours  . . . . . . . . . . . .	L Near	 00000150 _TEXT	
-  monday . . . . . . . . . . . .	L Near	 00000187 _TEXT	
-  tuesday  . . . . . . . . . . .	L Near	 000001A1 _TEXT	
-  wednesday  . . . . . . . . . .	L Near	 000001BB _TEXT	
-  thursday . . . . . . . . . . .	L Near	 000001D5 _TEXT	
-  friday . . . . . . . . . . . .	L Near	 000001EF _TEXT	
-  L2 . . . . . . . . . . . . . .	L Near	 00000209 _TEXT	
-  days_1 . . . . . . . . . . . .	L Near	 000002A2 _TEXT	
-  days_2 . . . . . . . . . . . .	L Near	 000002B3 _TEXT	
-  days_3 . . . . . . . . . . . .	L Near	 000002C4 _TEXT	
-  days_4 . . . . . . . . . . . .	L Near	 000002D5 _TEXT	
-  days_5 . . . . . . . . . . . .	L Near	 000002E6 _TEXT	
-  hour . . . . . . . . . . . . .	L Near	 000002F7 _TEXT	
-  mon  . . . . . . . . . . . . .	L Near	 00000324 _TEXT	
-  tues . . . . . . . . . . . . .	L Near	 00000336 _TEXT	
-  wed  . . . . . . . . . . . . .	L Near	 00000348 _TEXT	
-  thurs  . . . . . . . . . . . .	L Near	 0000035A _TEXT	
-  fri  . . . . . . . . . . . . .	L Near	 0000036C _TEXT	
-  leaveConfirm . . . . . . . . .	L Near	 0000037E _TEXT	
-  L3 . . . . . . . . . . . . . .	L Near	 00000397 _TEXT	
-  L4 . . . . . . . . . . . . . .	L Near	 00000483 _TEXT	
-  err  . . . . . . . . . . . . .	L Near	 000004A1 _TEXT	
-  generatePaySlip  . . . . . . .	L Near	 000004BF _TEXT	
-  _exit  . . . . . . . . . . . .	L Near	 00000551 _TEXT	
+main . . . . . . . . . . . . . .	P Near	 0000001E _TEXT	Length= 000005D0 Public STDCALL
+  start  . . . . . . . . . . . .	L Near	 0000007B _TEXT	
+  L1 . . . . . . . . . . . . . .	L Near	 000000CC _TEXT	
+  day_1  . . . . . . . . . . . .	L Near	 0000013F _TEXT	
+  day_2  . . . . . . . . . . . .	L Near	 00000150 _TEXT	
+  day_3  . . . . . . . . . . . .	L Near	 00000161 _TEXT	
+  day_4  . . . . . . . . . . . .	L Near	 00000172 _TEXT	
+  day_5  . . . . . . . . . . . .	L Near	 00000183 _TEXT	
+  hours  . . . . . . . . . . . .	L Near	 00000194 _TEXT	
+  monday . . . . . . . . . . . .	L Near	 000001CB _TEXT	
+  tuesday  . . . . . . . . . . .	L Near	 000001E5 _TEXT	
+  wednesday  . . . . . . . . . .	L Near	 000001FF _TEXT	
+  thursday . . . . . . . . . . .	L Near	 00000219 _TEXT	
+  friday . . . . . . . . . . . .	L Near	 00000233 _TEXT	
+  L2 . . . . . . . . . . . . . .	L Near	 0000024D _TEXT	
+  days_1 . . . . . . . . . . . .	L Near	 000002E6 _TEXT	
+  days_2 . . . . . . . . . . . .	L Near	 000002F7 _TEXT	
+  days_3 . . . . . . . . . . . .	L Near	 00000308 _TEXT	
+  days_4 . . . . . . . . . . . .	L Near	 00000319 _TEXT	
+  days_5 . . . . . . . . . . . .	L Near	 0000032A _TEXT	
+  hour . . . . . . . . . . . . .	L Near	 0000033B _TEXT	
+  mon  . . . . . . . . . . . . .	L Near	 00000368 _TEXT	
+  tues . . . . . . . . . . . . .	L Near	 0000037A _TEXT	
+  wed  . . . . . . . . . . . . .	L Near	 0000038C _TEXT	
+  thurs  . . . . . . . . . . . .	L Near	 0000039E _TEXT	
+  fri  . . . . . . . . . . . . .	L Near	 000003B0 _TEXT	
+  leaveConfirm . . . . . . . . .	L Near	 000003C2 _TEXT	
+  L3 . . . . . . . . . . . . . .	L Near	 000003DB _TEXT	
+  L4 . . . . . . . . . . . . . .	L Near	 000004D1 _TEXT	
+  err  . . . . . . . . . . . . .	L Near	 000004EF _TEXT	
+  generatePaySlip  . . . . . . .	L Near	 0000050D _TEXT	
+  _exit  . . . . . . . . . . . .	L Near	 0000059F _TEXT	
+  errr . . . . . . . . . . . . .	L Near	 000005E9 _TEXT	
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
-print  . . . . . . . . . . . . .	P Near	 00000551 _TEXT	Length= 00000041 Public STDCALL
+print  . . . . . . . . . . . . .	P Near	 000005EE _TEXT	Length= 00000041 Public STDCALL
   day  . . . . . . . . . . . . .	DWord	 bp + 00000008
   hourWorked . . . . . . . . . .	DWord	 bp + 0000000C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -1195,31 +1289,36 @@ WriteConsole . . . . . . . . . .	Text   	 WriteConsoleA
 black  . . . . . . . . . . . . .	Number	 00000000h   
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
+bytesWritten . . . . . . . . . .	DWord	 000004A0 _DATA	
 confirmedLeave . . . . . . . . .	Byte	 00000187 _DATA	
 counter  . . . . . . . . . . . .	DWord	 000002B8 _DATA	
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
-day1 . . . . . . . . . . . . . .	DWord	 000002C4 _DATA	
-day2 . . . . . . . . . . . . . .	DWord	 000002C8 _DATA	
-day3 . . . . . . . . . . . . . .	DWord	 000002CC _DATA	
-day4 . . . . . . . . . . . . . .	DWord	 000002D0 _DATA	
-day5 . . . . . . . . . . . . . .	DWord	 000002D4 _DATA	
+day1 . . . . . . . . . . . . . .	DWord	 000002C8 _DATA	
+day2 . . . . . . . . . . . . . .	DWord	 000002CC _DATA	
+day3 . . . . . . . . . . . . . .	DWord	 000002D0 _DATA	
+day4 . . . . . . . . . . . . . .	DWord	 000002D4 _DATA	
+day5 . . . . . . . . . . . . . .	DWord	 000002D8 _DATA	
 dayEnter . . . . . . . . . . . .	Byte	 0000010A _DATA	
 dayHeading . . . . . . . . . . .	Byte	 00000298 _DATA	
 deniedLeave  . . . . . . . . . .	Byte	 000001A2 _DATA	
 ending . . . . . . . . . . . . .	Byte	 000001F3 _DATA	
-equals . . . . . . . . . . . . .	Byte	 0000038A _DATA	
-error  . . . . . . . . . . . . .	Byte	 00000304 _DATA	
+equals . . . . . . . . . . . . .	Byte	 0000038E _DATA	
+error  . . . . . . . . . . . . .	Byte	 00000308 _DATA	
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
+fileToStoreHours . . . . . . . .	Byte	 0000048A _DATA	
+fileToStoreName  . . . . . . . .	Byte	 00000481 _DATA	
+fileToStorePay . . . . . . . . .	Byte	 00000494 _DATA	
+filehandle . . . . . . . . . . .	DWord	 0000049C _DATA	
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
 hourHeading  . . . . . . . . . .	Byte	 000002A4 _DATA	
-hoursEmployeeWorkedOnDay1  . . .	DWord	 000002E7 _DATA	
-hoursEmployeeWorkedOnDay2  . . .	DWord	 000002EB _DATA	
-hoursEmployeeWorkedOnDay3  . . .	DWord	 000002EF _DATA	
-hoursEmployeeWorkedOnDay4  . . .	DWord	 000002F3 _DATA	
-hoursEmployeeWorkedOnDay5  . . .	DWord	 000002F7 _DATA	
+hoursEmployeeWorkedOnDay1  . . .	DWord	 000002EB _DATA	
+hoursEmployeeWorkedOnDay2  . . .	DWord	 000002EF _DATA	
+hoursEmployeeWorkedOnDay3  . . .	DWord	 000002F3 _DATA	
+hoursEmployeeWorkedOnDay4  . . .	DWord	 000002F7 _DATA	
+hoursEmployeeWorkedOnDay5  . . .	DWord	 000002FB _DATA	
 hoursEnter . . . . . . . . . . .	Byte	 0000011A _DATA	
-hoursPrompt  . . . . . . . . . .	Byte	 00000369 _DATA	
+hoursPrompt  . . . . . . . . . .	Byte	 0000036D _DATA	
 leaveConfirmation  . . . . . . .	Byte	 00000143 _DATA	
 leaveCount . . . . . . . . . . .	Byte	 000002B7 _DATA	
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
@@ -1232,7 +1331,7 @@ magenta  . . . . . . . . . . . .	Number	 00000005h
 menu . . . . . . . . . . . . . .	Byte	 00000050 _DATA	
 nameEnter  . . . . . . . . . . .	Byte	 000000F8 _DATA	
 nameHeading  . . . . . . . . . .	Byte	 0000028B _DATA	
-nameOfEmployee . . . . . . . . .	Byte	 000002D8 _DATA	
+nameOfEmployee . . . . . . . . .	Byte	 000002DC _DATA	
 paySlipHours . . . . . . . . . .	Byte	 00000246 _DATA	
 paySlipName  . . . . . . . . . .	Byte	 0000022D _DATA	
 paySlipSalary  . . . . . . . . .	Byte	 00000270 _DATA	
@@ -1241,9 +1340,10 @@ printCounter . . . . . . . . . .	DWord	 000002BC _DATA
 red  . . . . . . . . . . . . . .	Number	 00000004h   
 salaryPerHour  . . . . . . . . .	DWord	 000002B3 _DATA	
 selection  . . . . . . . . . . .	Byte	 000000D3 _DATA	
-space  . . . . . . . . . . . . .	Byte	 000002FB _DATA	
+space  . . . . . . . . . . . . .	Byte	 000002FF _DATA	
 titleOfProject . . . . . . . . .	Byte	 00000000 _DATA	
-totalPayPrompt . . . . . . . . .	Byte	 0000037E _DATA	
+totalHours . . . . . . . . . . .	DWord	 000002C4 _DATA	
+totalPayPrompt . . . . . . . . .	Byte	 00000382 _DATA	
 totalPay . . . . . . . . . . . .	DWord	 000002C0 _DATA	
 white  . . . . . . . . . . . . .	Number	 0000000Fh   
 wsprintf . . . . . . . . . . . .	Text   	 wsprintfA

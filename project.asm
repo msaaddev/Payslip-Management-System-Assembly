@@ -43,6 +43,7 @@ leaveCount BYTE 0												;Total leaves
 counter DWORD 1													;counter to keep track of days while inputing
 printCounter DWORD 0											;counter to keep track of days during printing on console
 totalPay DWORD 0
+totalHours DWORD 0
 
 day1 DWORD ?
 day2 DWORD ?
@@ -62,13 +63,20 @@ error BYTE " ------------------------------ ", 0dh, 0ah			;error prompt
 
 hoursPrompt BYTE "Total Hours Worked: ", 0						;total hours prompt to display on screen
 totalPayPrompt BYTE "Total Pay: ", 0							;total pay prompt to display on screen
-equals BYTE " ------------------------------ ", 0dh, 0ah		;table to show number with corresponding day
-      BYTE "| Enter 1: For Monday |", 0dh, 0ah
-      BYTE "| Enter 2: For Tuesday |", 0dh, 0ah
-      BYTE "| Enter 3: For Wednesday |", 0dh, 0ah
-      BYTE "| Enter 4: For Thursday |", 0dh, 0ah
-      BYTE "| Enter 5: For Friday |", 0dh, 0ah
-      BYTE " ------------------------------ ", 0
+equals BYTE "  ----------------------------- ", 0dh, 0ah		;table to show number with corresponding day
+      BYTE " | Enter 1: For Monday          |", 0dh, 0ah
+      BYTE " | Enter 2: For Tuesday         |", 0dh, 0ah
+      BYTE " | Enter 3: For Wednesday       |", 0dh, 0ah
+      BYTE " | Enter 4: For Thursday        |", 0dh, 0ah
+      BYTE " | Enter 5: For Friday          |", 0dh, 0ah
+      BYTE "  ------------------------------ ", 0
+
+fileToStoreName BYTE "name.txt", 0
+fileToStoreHours BYTE "hours.txt", 0
+fileToStorePay BYTE "pay.txt", 0
+filehandle DWORD ?
+bytesWritten DWORD ?
+
 
 .code
 
@@ -88,6 +96,27 @@ print proto, day: dword, hourWorked: dword						;function to print data
 
 main proc
 		
+	INVOKE CreateFile,
+		ADDR fileToStoreName, ; ptr to filename
+		GENERIC_READ, ; mode = Can read
+		DO_NOT_SHARE, ; share mode
+		NULL, ; ptr to security attributes
+		OPEN_EXISTING, ; open an existing file
+		FILE_ATTRIBUTE_NORMAL, ; normal file attribute
+		0 ; not used
+
+		cmp eax, INVALID_HANDLE_VALUE
+		je errr
+		mov filehandle, eax ; Copy handle to variable
+
+		mov edx, offset nameOfEmployee
+		mov ecx, sizeof nameOfEmployee
+		call readFromFile
+
+
+		invoke CloseHandle, filehandle
+
+
      call crlf
 	 mov edx, offset titleOfProject								;moving address of title of project into edx to print it
 	 call writestring
@@ -385,6 +414,7 @@ main proc
 			mov edx, offset hoursPrompt	
 			call writeString
 			call calSum											;calculating sum of hours
+			mov totalHours, eax
 			call writeint
 			call crlf
 			call crlf
@@ -392,6 +422,7 @@ main proc
 			mov edx, offset totalPayPrompt
 			call writestring
 			mul salaryPerHour									;calculating total salary
+			mov totalPay, eax
 			call writeint
 			call crlf
 			call crlf
@@ -418,6 +449,7 @@ main proc
 		jmp start
 
 	generatePaySlip:
+
 		call crlf
 		call crlf
 
@@ -456,6 +488,31 @@ main proc
 	
 	_exit:
 
+		INVOKE CreateFile,
+		ADDR fileToStoreName, ; ptr to filename
+		GENERIC_WRITE, ; mode = Can read
+		DO_NOT_SHARE, ; share mode
+		NULL, ; ptr to security attributes
+		OPEN_EXISTING, ; open an existing file
+		FILE_ATTRIBUTE_NORMAL, ; normal file attribute
+		0 ; not used
+
+		cmp eax, INVALID_HANDLE_VALUE
+		je errr
+		mov filehandle, eax ; Copy handle to variable
+
+
+		INVOKE WriteFile,
+		filehandle, ; file handle
+		addr nameOfEmployee, ; msg to write
+		sizeof nameOfEmployee, ; size of bytes to write
+		addr bytesWritten, ; num bytes written
+		0
+
+		invoke CloseHandle, filehandle
+		
+		errr: 
+			call writeWindowsMsg
 main endp
 
 print proc uses edx, day: dword, hourWorked: dword				;procedure to display user date on console
