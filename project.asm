@@ -12,10 +12,11 @@ Include Irvine32.inc
 titleOfProject BYTE "			************************ PAY SLIP MANAGEMENT SYSTEM ************************", 0
 menu BYTE "Select from the following menu.", 0dh, 0ah			; menu template
 	 BYTE " ",  0dh, 0ah
-     BYTE "1. Enter today's data", 0dh, 0ah
+     BYTE "1. Enter Today's Data", 0dh, 0ah
      BYTE "2. Apply for leave", 0dh, 0ah
-     BYTE "3. Show the report", 0dh, 0ah
-     BYTE "4. Exit", 0dh, 0ah, 0
+     BYTE "3. Show the Report", 0dh, 0ah
+	 BYTE "4. Generate Pay Slip", 0dh, 0ah
+     BYTE "5. Exit", 0dh, 0ah, 0
 
 selection BYTE "Enter the number of your selection: ", 0		;input prompt
 
@@ -26,6 +27,12 @@ hoursEnter BYTE "Enter number of hours you worked today: ", 0	;input prompt
 leaveConfirmation BYTE "Enter 1 if you want to apply for leave and 0 to exit to main menu: ", 0		;leave confirmation prompt
 confirmedLeave BYTE "Your leave has been added.", 0				;leave confirmed prompt
 deniedLeave BYTE "Leave is not allowed.", 0						;leave denied prompt
+
+playSlip BYTE "  ----------------------- PAY SLIP -----------------------", 0
+ending BYTE "  -------------------------------------------------------", 0
+paySlipName BYTE "  Name of the employee: ", 0					;name of employeee
+paySlipHours BYTE "  Total number of hours employee worked: ", 0	;employee work hours
+paySlipSalary BYTE "  Total pay of employee: $", 0				;employee pay
 
 nameHeading BYTE "Name        ", 0								;heading
 dayHeading BYTE "Day        ", 0								;heading
@@ -105,7 +112,9 @@ main proc
 		je L2
 		cmp eax, 3												;comparing selection result for jumping at particular label			
 		je L3
-		cmp eax, 4												;comparing selection result for jumping at particular label
+		cmp eax, 4
+		je generatePaySlip
+		cmp eax, 5												;comparing selection result for jumping at particular label
 		je _exit												;jumping to end of program if option 4 is selected
 
 		jmp err													;handling exception
@@ -408,6 +417,43 @@ main proc
 
 		jmp start
 
+	generatePaySlip:
+		call crlf
+		call crlf
+
+		mov edx, offset playSlip
+		call writestring
+		call crlf
+		call crlf
+
+		mov edx, offset paySlipName
+		call writestring
+		
+		mov edx, offset nameOfEmployee
+		call writestring
+		call crlf
+		call crlf
+
+		mov edx, offset paySlipHours
+		call writestring
+		call calSum											;calculating sum of hours
+		call writeint
+		call crlf
+		call crlf
+		
+		mov edx, offset	paySlipSalary
+		call writestring
+		mul salaryPerHour									;calculating total salary
+		call writeint
+
+		call crlf
+		call crlf
+		mov edx, offset ending
+		call writestring
+		call crlf
+		call crlf
+		jmp start
+	
 	_exit:
 
 main endp
